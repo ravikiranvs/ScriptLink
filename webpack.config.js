@@ -1,1 +1,1 @@
-module.exports = require('./build-config/webpack-config');
+module.exports = require('./sln-config/webpack-config');

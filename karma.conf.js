@@ -1,1 +1,1 @@
-module.exports = require('./build-config/karma-config');
+module.exports = require('./sln-config/karma-config');
