@@ -49,5 +49,9 @@
     "npm-run-all": "^3.0.0",
     "webpack": "^1.13.2",
     "webpack-livereload-plugin": "^0.8.2"
+  },
+  "dependencies": {
+    "office-ui-fabric": "^2.6.1",
+    "sp-pnp-js": "^1.0.4"
   }
 }
