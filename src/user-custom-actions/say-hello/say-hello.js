@@ -8,10 +8,10 @@ MDS('http://localhost:7777/scripts/say-hello.bundle.js', () => {
   const cachedData = pnp.storage.session.get('say-hello');
   if (!cachedData) {
     console.log('from rest');
-    pnp.sp.web.select('Title').get().then((data) => {
-      pnp.storage.session.put('say-hello', data.Title);
-      console.log(data.Title);
-    });
+    // pnp.sp.web.select('Title').get().then((data) => {
+    //   pnp.storage.session.put('say-hello', data.Title);
+    //   console.log(data.Title);
+    // });
   } else {
     console.log('from cache');
     console.log(cachedData);
