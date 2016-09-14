@@ -15,7 +15,7 @@ module.exports = function (config) {
     files: [
       'src/**/*.spec.js'
     ],
-    frameworks: ['chai', 'mocha'],
+    frameworks: ['mocha', 'sinon-stub-promise', 'sinon-chai', 'chai'],
     plugins: [
       'karma-chrome-launcher',
       'karma-ie-launcher',
@@ -23,7 +23,8 @@ module.exports = function (config) {
       'karma-mocha',
       'karma-sourcemap-loader',
       'karma-webpack',
-      'karma-mocha-reporter'
+      'karma-mocha-reporter',
+      'karma-sinon-stub-promise'
     ],
     // run the bundle through the webpack and sourcemap plugins
     preprocessors: {

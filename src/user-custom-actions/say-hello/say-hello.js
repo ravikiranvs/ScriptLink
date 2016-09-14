@@ -1,21 +1,21 @@
-import MDS from '../../MDS';
-import pnp from 'sp-pnp-js';
+// import MDS from '../../MDS';
 import SelectedTextSearchHelper from './search-selected-text';
+import config from './config';
 
-MDS('http://localhost:7777/scripts/say-hello.bundle.js', () => {
+const SayHelloNamespace = config.getNamespace();
+
+SayHelloNamespace.Script = (context, pnp) => {
   new SelectedTextSearchHelper().Init();
-  console.log('Hello from say-hello!');
   const cachedData = pnp.storage.session.get('say-hello');
-  if (!cachedData) {
-    console.log('from rest');
-    // pnp.sp.web.select('Title').get().then((data) => {
-    //   pnp.storage.session.put('say-hello', data.Title);
-    //   console.log(data.Title);
-    // });
+  if (!cachedData || cachedData == '') {
+    pnp.sp.web.select('Title').get().then((data) => {
+      pnp.storage.session.put('say-hello', data.Title);
+      context.ExecuteOrDelayUntilScriptLoaded(function () { context.SP.UI.Notify.addNotification(data.Title, false); }, 'sp.js');
+    });
   } else {
-    console.log('from cache');
-    console.log(cachedData);
+    context.ExecuteOrDelayUntilScriptLoaded(function () { context.SP.UI.Notify.addNotification(cachedData, false); }, 'sp.js');
   }
-  pnp.log.log('logging from say-hello.');
-  // SP.SOD.notifyScriptLoadedAndExecuteWaitingJobs('say-hello.js');
-});
+  context.SP.SOD.notifyScriptLoadedAndExecuteWaitingJobs('say-hello.js');
+};
+
+export default SayHelloNamespace.Script;

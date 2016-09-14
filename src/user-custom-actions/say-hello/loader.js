@@ -1,15 +1,21 @@
 import MDS from '../../MDS';
+import config from './config';
+import pnp from 'sp-pnp-js';
 
-const sayHelloCustActionLoader = () => {
-  console.log('Hello from loader!');
-  var url = 'http://localhost:7777/scripts/say-hello.bundle.js';
-  SP.SOD.registerSod('say-hello.js', url);
-  SP.SOD.executeFunc('say-hello.js', null, function () {
-    console.log('Hello from custom-action-loader-executeFunc!');
-  });
+const SayHelloNamespace = config.getNamespace();
 
-  SP.SOD.notifyScriptLoadedAndExecuteWaitingJobs('say-hello-loader.js');
+SayHelloNamespace.Loader = (context) => {
+  const sayHelloCustActionLoader = () => {
+    var url = 'http://localhost:7777/scripts/say-hello.bundle.js';
+    context.SP.SOD.registerSod('say-hello.js', url);
+    context.SP.SOD.executeFunc('say-hello.js', null, function () {
+      SayHelloNamespace.Script(context, pnp);
+    });
+
+    context.SP.SOD.notifyScriptLoadedAndExecuteWaitingJobs('say-hello-loader.js');
+  };
+
+  MDS('http://localhost:7777/scripts/say-hello-loader.bundle.js', sayHelloCustActionLoader);
 };
 
-console.log('new');
-MDS('http://localhost:7777/scripts/say-hello-loader.bundle.js', sayHelloCustActionLoader);
+export default SayHelloNamespace.Loader;
